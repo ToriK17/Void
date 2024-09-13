@@ -1,9 +1,9 @@
 {
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=public/assets --public-path=/assets",
+    "build": "esbuild app/javascript/application.jsx --bundle --sourcemap --format=esm --outdir=public/assets --loader:.jsx=jsx",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./public/assets/application.css --minify",
     "dev": "rails server",
-    "dev:js": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --watch --outdir=public/assets --public-path=/assets"
+    "dev:js": "esbuild app/javascript/application.jsx --bundle --sourcemap --format=esm --watch --outdir=public/assets --loader:.jsx=jsx"
   },
   "dependencies": {
     "axios": "^1.7.7",

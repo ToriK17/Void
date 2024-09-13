@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 const App = () => {
   const [content, setContent] = useState('');
   const [posts, setPosts] = useState([]);
 
-  // Fetch posts
   useEffect(() => {
     axios.get('/api/v1/posts')
       .then(response => setPosts(response.data))
@@ -22,17 +22,6 @@ const App = () => {
       .catch(error => console.log(error));
   };
 
-  const makePublic = (id) => {
-    axios.put(`/api/v1/posts/${id}`)
-      .then(response => {
-        const updatedPosts = posts.map(post => 
-          post.id === id ? { ...post, public: true } : post
-        );
-        setPosts(updatedPosts);
-      })
-      .catch(error => console.log(error));
-  };
-
   return (
     <div>
       <h1>Scream Into the Void</h1>
@@ -40,9 +29,9 @@ const App = () => {
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="Write your scream..."
+          placeholder="Vent to the universe..."
         />
-        <button type="submit">Scream</button>
+        <button type="submit">Let it Go</button>
       </form>
       <div>
         {posts.map(post => (
@@ -58,4 +47,9 @@ const App = () => {
   );
 };
 
-export default App;
+document.addEventListener('DOMContentLoaded', () => {
+  ReactDOM.render(
+    <App />,
+    document.getElementById('root'),
+  );
+});

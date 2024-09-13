@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <!-- Link to the correct build paths for CSS and JS -->
     <link rel="stylesheet" href="/assets/application.css">
     <script type="module" src="/assets/application.js" defer></script>
   </head>
 
   <body>
+     <div id="root"></div>
     <%= yield %>
   </body>
 </html>
