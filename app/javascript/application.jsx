@@ -22,16 +22,31 @@ const App = () => {
       .catch(error => console.log(error));
   };
 
+  const makePublic = (id) => {
+    axios.put(`/api/v1/posts/${id}`)
+      .then(response => {
+        const updatedPosts = posts.map(post =>
+          post.id === id ? { ...post, public: true } : post
+        );
+        setPosts(updatedPosts);
+      })
+      .catch(error => console.log(error));
+  };
+
   return (
-    <div>
-      <h1>Scream Into the Void</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="h-screen flex justify-center items-center bg-gray-100">
+      <form onSubmit={handleSubmit} className="text-center">
+        <h1 className="text-4xl font-bold mb-4">Scream Into the Void</h1>
         <textarea
+          className="border-2 border-gray-300 p-2 rounded w-80 h-24 mb-4"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Vent to the universe..."
         />
-        <button type="submit">Let it Go</button>
+        <br />
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+          Move onward to better things
+        </button>
       </form>
       <div>
         {posts.map(post => (
