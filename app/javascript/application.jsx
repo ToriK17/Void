@@ -35,6 +35,11 @@ const App = () => {
       .catch(error => console.log(error));
   };
 
+  const COLORS = [
+    "#0000FF", "#00FF00", "#FF0000", "#FFFF00", "#FF00FF", "#00FFFF",
+    "#000000", "#FF5733", "#C70039", "#900C3F", "#581845", "#5A4FCF"
+  ];
+
   return (
     <div className="relative h-screen w-full bg-gray-100 flex items-center justify-center">
       {/* Word Cloud Container WIP*/}
@@ -46,7 +51,7 @@ const App = () => {
               fontSizes: [10, 80],
               rotations: 2,
               rotationAngles: [-90, 0],
-              colors: ["#0000FF", "#00FF00", "#FF0000"],
+              colors: COLORS,
               enableTooltip: false,
               deterministic: true,
             }}
