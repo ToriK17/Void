@@ -18,11 +18,33 @@ const App = () => {
       .catch(error => console.log(error));
   }, []);
 
-  // Words for the word cloud
-  const words = submittedPosts.map(post => ({
-    text: post.content.trim().split(" ")[0],
-    value: 1,
-  }));
+  const getWordFrequencies = (posts) => {
+    const wordMap = {};
+    const maxLength = 45; 
+    // Max word length based on the longest word in the English Dict
+  
+    posts.forEach(post => {
+      const words = post.content.trim().split(/\s+/);
+      words.forEach(word => {
+        if (word.length <= maxLength) {
+          const lowerWord = word.toLowerCase();
+          if (wordMap[lowerWord]) {
+            wordMap[lowerWord] += 1;
+          } else {
+            wordMap[lowerWord] = 1;
+          }
+        }
+      });
+    });
+  
+    return Object.keys(wordMap).map(word => ({
+      text: word,
+      value: wordMap[word],
+    }));
+  };
+  
+
+  const words = getWordFrequencies(submittedPosts);
 
   const handleSubmit = (e) => {
     e.preventDefault();
