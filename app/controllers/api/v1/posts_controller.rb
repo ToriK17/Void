@@ -1,6 +1,7 @@
 class Api::V1::PostsController < ApplicationController
   def index
-    @posts = Post.where('created_at >= ?', 2.hours.ago)
+    # @posts = Post.where('created_at >= ?', 2.hours.ago)
+    @posts = Post.all
     render json: @posts
   end
 

@@ -41,24 +41,8 @@ const App = () => {
   ];
 
   return (
-    <div className="relative h-screen w-full bg-gray-100 flex items-center justify-center">
-      {/* Word Cloud Container WIP*/}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative h-[90%] w-[90%] rounded-full overflow-hidden">
-          <WordCloud
-            words={words}
-            options={{
-              fontSizes: [10, 80],
-              rotations: 2,
-              rotationAngles: [-90, 0],
-              colors: COLORS,
-              enableTooltip: false,
-              deterministic: true,
-            }}
-          />
-        </div>
-      </div>
-      <div className="relative z-10 bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <div className="h-screen w-full bg-gray-100 flex flex-col items-center">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mt-6">
         <form onSubmit={handleSubmit} className="text-center">
           <h1 className="text-4xl font-bold mb-4">Scream Into the Void</h1>
           <textarea
@@ -73,10 +57,26 @@ const App = () => {
           </button>
         </form>
       </div>
+
+      {/* Word Cloud */}
+      <div className="flex-grow w-full mt-6">
+        <div className="relative h-full w-full">
+          <WordCloud
+            words={words}
+            options={{
+              fontSizes: [10, 80],
+              rotations: 2,
+              rotationAngles: [-90, 0],
+              colors: COLORS,
+              enableTooltip: false,
+              deterministic: true,
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
-
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('root');
