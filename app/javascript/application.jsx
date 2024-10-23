@@ -20,11 +20,10 @@ const App = () => {
 
   const getWordFrequencies = (posts) => {
     const wordMap = {};
-    const maxLength = 45; 
-    // Max word length based on the longest word in the English Dict
+    const maxLength = 45;
   
     posts.forEach(post => {
-      const words = post.content.trim().split(/\s+/);
+      const words = post.subject ? post.subject.trim().split(/\s+/) : [];
       words.forEach(word => {
         if (word.length <= maxLength) {
           const lowerWord = word.toLowerCase();
@@ -43,7 +42,6 @@ const App = () => {
     }));
   };
   
-
   const words = getWordFrequencies(submittedPosts);
 
   const handleSubmit = (e) => {
