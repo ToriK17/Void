@@ -11,7 +11,9 @@ threads min_threads_count, max_threads_count
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
 # terminating a worker in development environments.
 #
+# Specifies the `worker_timeout` based on the current environment
 worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
+worker_timeout 60 if ENV.fetch("RAILS_ENV", "development") == "production"
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
@@ -19,7 +21,8 @@ port ENV.fetch("PORT") { 3000 }
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch("RAILS_ENV") { "development" }
+environment ENV.fetch("RAILS_ENV") { "development" } if ENV.fetch("RAILS_ENV") == "development"
+environment ENV.fetch("RAILS_ENV") { "production" } if ENV.fetch("RAILS_ENV") == "production"
 
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
@@ -37,7 +40,11 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 # before forking the application. This takes advantage of Copy On Write
 # process behavior so workers use less memory.
 #
-# preload_app!
+# Specifies the number of workers in clustered mode
+workers ENV.fetch("WEB_CONCURRENCY") { 2 } if ENV.fetch("RAILS_ENV") == "production"
+
+# Use the `preload_app!` directive for Copy On Write behavior
+preload_app! if ENV.fetch("RAILS_ENV") == "production"
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
