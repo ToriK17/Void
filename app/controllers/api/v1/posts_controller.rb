@@ -16,6 +16,7 @@ class Api::V1::PostsController < ApplicationController
     "Personal",
     "Existential",
     "Social",
+    "Fear",
     "Injustice",
     "Social",
     "Environmental",
@@ -49,9 +50,9 @@ class Api::V1::PostsController < ApplicationController
     "Overthinking",
     "Procrastination",
     "Impatience",
-    "Feeling",
+    "Exhaustion",
     "Lack",
-    "Feeling",
+    "Anger",
     "Feeling",
     "Trump",
     "Kamala",
@@ -61,6 +62,8 @@ class Api::V1::PostsController < ApplicationController
     "Election",
     "School",
     "Test",
+    "Future",
+    "Past",
 ]
   def index
     # @posts = Post.where('created_at >= ?', 2.hours.ago)
