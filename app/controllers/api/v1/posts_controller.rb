@@ -1,70 +1,9 @@
 require 'pycall/import'
 include PyCall::Import
-
+include Categories
 
 class Api::V1::PostsController < ApplicationController
   
-  CATEGORIES = [
-    "Personal",
-    "Relationships",
-    "Mental",
-    "Career",
-    "Finances",
-    "Health",
-    "Goals",
-    "Life",
-    "Personal",
-    "Existential",
-    "Social",
-    "Fear",
-    "Injustice",
-    "Social",
-    "Environmental",
-    "Political",
-    "Cultural",
-    "Societal",
-    "Media",
-    "Technology",
-    "Technology",
-    "Social",
-    "Digital",
-    "Privacy",
-    "Technological",
-    "Virtual",
-    "Personal",
-    "Creative",
-    "Sports",
-    "Hobbies",
-    "Travel",
-    "Gaming",
-    "Everyday",
-    "Traffic",
-    "Public",
-    "Weather",
-    "Customer",
-    "Waiting",
-    "Miscellaneous",
-    "Mishaps",
-    "Irrational",
-    "Regret",
-    "Overthinking",
-    "Procrastination",
-    "Impatience",
-    "Exhaustion",
-    "Lack",
-    "Anger",
-    "Feeling",
-    "Trump",
-    "Kamala",
-    "Democrats",
-    "Republicans",
-    "Life",
-    "Election",
-    "School",
-    "Test",
-    "Future",
-    "Past",
-]
   def index
     # @posts = Post.where('created_at >= ?', 2.hours.ago)
     @posts = Post.all
@@ -72,19 +11,11 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def create
-    pyimport 'transformers', as: :transformers
-    keyword_extractor = transformers.pipeline('zero-shot-classification', model: 'facebook/bart-large-mnli')
-
     @post = Post.new(post_params)
-
+    result = TRANSFORMERS_PIPELINE.call(@post.content, candidate_labels: Categories::LIST)
     if @post.save
-      result = keyword_extractor.call(@post.content, candidate_labels: CATEGORIES)
-      subject = result['labels'][0]
-
-      # Update the subject to the parsed AI subject in the db
-      @post.update(subject: subject)
-
-      render json: { post: @post, subject: subject }
+      ProcessPostSubjectJob.perform_later(@post.id)
+      render json: { post: @post, message: 'Post created successfully. Subject will be updated shortly.' }
     else
       render json: { error: 'Failed to create post' }, status: :unprocessable_entity
     end
