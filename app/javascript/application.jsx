@@ -64,12 +64,12 @@ const App = () => {
     <div className="h-screen w-full bg-gray-100 flex flex-col items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md mt-6">
         <form onSubmit={handleSubmit} className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Scream Into the Void</h1>
+          <h1 className="text-4xl font-bold mb-4">The Void</h1>
           <textarea
             className="border-2 border-gray-300 p-2 rounded w-full h-24 mb-4"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Vent to the universe..."
+            placeholder="Vent here..."
           />
           <br />
           <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
